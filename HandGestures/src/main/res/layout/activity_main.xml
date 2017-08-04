@@ -1,0 +1,799 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <!--<com.androidexperiments.shadercam.view.SquareTextureView-->
+    <TextureView
+        android:id="@+id/texture_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+
+    <Button
+        android:id="@+id/btn_swap_camera"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_margin="10dp"
+        android:text="swap"/>
+
+    <ToggleButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textOff="Lock Camera"
+        android:textOn="Unlock Camera"
+        android:id="@+id/toggleCamLockButton"
+        android:layout_alignParentTop="true"
+        android:layout_toStartOf="@+id/btn_swap_camera" />
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toStartOf="@+id/toggleCamLockButton"
+        android:id="@+id/codeBookLayout">
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_above="@+id/threshSliderLayout"
+            android:checkedButton="@+id/radioCodeBookBGSub">
+
+            <RadioButton
+                android:id="@+id/radioCodeBookBGSub"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Codebook Background Subtraction"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioCBGenYCbCrSqrSqrt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CBGen YCbCr SqrSqrt"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioRawCamera"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Raw Camera"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioCBGenYCbCrAdditive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CBGen YCbCr Additive"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioCBGenRGBSqrSqrt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CBGen RGB SqrSqrt"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioCBGenRGBAdditive"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="CBGen RGB Additive"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioDispCodebook"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Codebook Display"
+                android:onClick="onRadioButtonClicked"/>
+
+            <RadioButton
+                android:id="@+id/radioCodeBookWhiteThresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simple (White) Threshold"
+                android:onClick="onRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioCodeBookGeneralThresh"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simple Threshold"
+                android:onClick="onRadioButtonClicked"/>
+        </RadioGroup>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:orientation="horizontal"
+        android:layout_below="@+id/codeBookLayout"
+        android:layout_above="@+id/threshSliderLayout"
+        android:layout_toStartOf="@+id/toggleCamLockButton">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioKmeanResetCenterOn">
+            <RadioButton
+                android:id="@+id/radioKmeanResetCenterOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kmean reset center"
+                android:onClick="onKmeanResetCenterButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioKmeanResetCenterOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Off"
+                android:onClick="onKmeanResetCenterButtonClicked"/>
+        </RadioGroup>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+       <RadioGroup
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:orientation="horizontal"
+           android:checkedButton="@+id/radioCannyOff">
+           <RadioButton
+               android:id="@+id/radioFingerDetectKMeans"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerKMeans"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioCannyOff"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Canny Off"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioCannyOn"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Canny On"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioSimpleEdge"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="Simple"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioSimpleEdgeThin"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="SimpleThin"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioSimpleStepEdge"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="SimpleStep"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioSimpleStepEdgeDebug"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="SimpleStepDebug"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectLine"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerLine"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectBox"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerBox"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectMidpoint"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerMidPoint"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectAccum"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerAccum"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectAccumSmooth"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerAccumSmooth"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectAccumNonMaxSupp"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerAccumNonMaxSupp"
+               android:onClick="onCannyRadioButtonClicked"/>
+           <RadioButton
+               android:id="@+id/radioFingerDetectAccumAreaAdd"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:text="FingerAccumAreaAdd"
+               android:onClick="onCannyRadioButtonClicked"/>
+       </RadioGroup>
+       <TextView
+           android:layout_width="wrap_content"
+           android:layout_height="wrap_content"
+           android:text="CannyThresh"
+           android:id="@+id/textCannyThresh"
+           android:background="#ffffff" />
+       <SeekBar
+           android:id="@+id/SeekCannyThresh"
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:minWidth="400px"
+           android:max="1000"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NumNeighbours"
+            android:id="@+id/textNeighThresh"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekNeighThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="150"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AngleThresh"
+            android:id="@+id/textFingerAngleThreshMin"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekFingerAngleThreshMin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="200"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AngleThresh"
+            android:id="@+id/textFingerAngleThreshMax"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekFingerAngleThreshMax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="200"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FingerAccumThresh"
+            android:id="@+id/textFingerAccumThresh"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekFingerAccumThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="30"/>
+        <!-- commenting this out usage says it isn't used for anything but being conservative
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FingerDistThresh"
+            android:id="@+id/textFingerDistThresh"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekFingerDistThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="1000"/>
+        -->
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KmeansIters"
+        android:id="@+id/textKmeansIters"
+        android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekKmeansIters"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="30"/>
+        <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="KmeansDist"
+        android:id="@+id/textKmeansDistThresh"
+        android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekKmeansDistThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="500"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="AccumConvolveSize"
+            android:id="@+id/textAccumConvolveKern"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekAccumConvolveKern"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="40"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioFillNone">
+            <RadioButton
+                android:id="@+id/radioFillNone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No fill"
+                android:onClick="onFillRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioFillNeighbour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fill Neighbour"
+                android:onClick="onFillRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioFillDistance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fill Distance"
+                android:onClick="onFillRadioButtonClicked"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="FillThresh"
+            android:id="@+id/textFillThresh"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekFillThresh"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="100"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioZoomOff">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioZoomOff"
+                android:text="Zoom Off"
+                android:onClick="onZoomRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioZoomOn"
+                android:text="Zoom On"
+                android:onClick="onZoomRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/radioZoomScrolling"
+                android:text="Zoom Scrolling"
+                android:onClick="onZoomRadioButtonClicked"/>
+        </RadioGroup>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Zoom: "
+            android:id="@+id/textZoomLevel"
+            android:background="#ffffff" />
+        <SeekBar
+            android:id="@+id/SeekZoomLevel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:minWidth="400px"
+            android:max="15"/>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioSimple">
+            <RadioButton
+                android:id="@+id/radioSimple"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simple Edge"
+                android:onClick="onContourGenRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioSimpleOrth"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Simple Orth"
+                android:onClick="onContourGenRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioContourLeite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Leite"
+                android:onClick="onContourGenRadioButtonClicked"/>
+        </RadioGroup>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioContourThinKWKThirdOnly">
+            <RadioButton
+                android:id="@+id/radioContourThinOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="No Thin"
+                android:onClick="onContourThinRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioContourThinKWK"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="KWK"
+                android:onClick="onContourThinRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioContourThinKWKThirdOnly"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="KWK 3rd Pass"
+                android:onClick="onContourThinRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioContourThinZS"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="ZS"
+                android:onClick="onContourThinRadioButtonClicked"/>
+        </RadioGroup>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioContourBreakOff">
+            <RadioButton
+                android:id="@+id/radioContourBreakOff"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Remove Contour Break Off"
+                android:onClick="onRemoveContourBreakRadioButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioContourBreakOn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="On"
+                android:onClick="onRemoveContourBreakRadioButtonClicked"/>
+        </RadioGroup>
+        <View
+            android:layout_width="5dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/black"/>
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioDrawBothLines">
+            <RadioButton
+                android:id="@+id/radioDrawBothLines"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Draw Both Lines"
+                android:onClick="onDrawLineButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioDrawShorterLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Shorter"
+                android:onClick="onDrawLineButtonClicked"/>
+            <RadioButton
+                android:id="@+id/radioDrawLongerLine"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Longer"
+                android:onClick="onDrawLineButtonClicked"/>
+        </RadioGroup>
+   </LinearLayout>
+   </HorizontalScrollView>
+
+   <LinearLayout
+       android:layout_width="match_parent"
+       android:layout_height="wrap_content"
+       android:weightSum="2"
+       android:orientation="horizontal"
+       android:layout_below="@+id/btn_swap_camera"
+       android:id="@+id/threshSliderLayout"
+       android:splitMotionEvents="true">
+
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:orientation="vertical">
+
+           <TextView
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:id="@+id/TextViewBGSubBounds"
+               android:enabled="true"
+               android:background="#ffffff"/>
+
+           <SeekBar
+               android:id="@+id/SeekBGSubMin"
+               android:layout_width ="match_parent"
+               android:layout_height="wrap_content"
+               android:max="224"/>
+
+           <SeekBar
+               android:id="@+id/SeekBGSubMax"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:max="224"/>
+
+       </LinearLayout>
+
+       <LinearLayout
+           android:layout_width="0dp"
+           android:layout_height="wrap_content"
+           android:layout_weight="1"
+           android:orientation="vertical">
+
+           <TextView
+               android:id="@+id/TextViewBGGen"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:enabled="true"
+               android:background="#ffffff"/>
+
+           <SeekBar
+               android:id="@+id/SeekBGGenBounds"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:max="224"/>
+
+           <SeekBar
+               android:id="@+id/SeekBGGenInc"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:max="224"/>
+
+       </LinearLayout>
+   </LinearLayout>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/threshSliderLayout"
+        android:layout_alignParentStart="true"
+        android:id="@+id/RandomSliders">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/TextNumCodeElements"
+            android:background="#ffffff" />
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SeekNumCodeElements"
+            android:max="10"
+            android:minWidth="500px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ArmWidthThresh"
+            android:id="@+id/textArmWidthThresh"
+            android:background="#ffffff" />
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/seekArmWidthThresh"
+            android:minWidth="400px" />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance Thresh Max"
+            android:id="@+id/TextDistThreshMax"
+            android:background="#ffffff"/>
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SeekDistThreshMax"
+            android:minWidth="400px"
+            android:max="1500"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Distance Thresh Min"
+            android:id="@+id/TextDistThreshMin"
+            android:background="#ffffff"/>
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SeekDistThreshMin"
+            android:minWidth="400px"
+            android:max="500"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repos Thresh"
+            android:id="@+id/TextReposThresh"
+            android:background="#ffffff"/>
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SeekReposThresh"
+            android:minWidth="400px"
+            android:max="100"/>
+    </LinearLayout>
+    </HorizontalScrollView>
+
+    <HorizontalScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/RandomSliders"
+        android:id="@+id/MorphologyLayout"
+        android:layout_alignParentStart="true">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Structuring Element Shape:"
+            android:id="@+id/textView"
+            android:background="#ffffff" />
+
+        <RadioGroup
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:checkedButton="@+id/radioMorphCross"
+            android:id="@+id/radioGroupMorph">
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cross"
+                android:id="@+id/radioMorphCross"
+                android:onClick="onMorphRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Box"
+                android:id="@+id/radioMorphBox"
+                android:onClick="onMorphRadioButtonClicked"/>
+            <RadioButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Diamond"
+                android:id="@+id/radioMorphDiamond"
+                android:onClick="onMorphRadioButtonClicked"/>
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:minWidth="168dp"
+            android:layout_height="wrap_content"
+            android:text="Morphology Ops: "
+            android:id="@+id/textMorphOps"
+            android:background="#ffffff"/>
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Erode"
+            android:id="@+id/buttonMoprhErode"/>
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dilate"
+            android:id="@+id/buttonMorphDilate" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Clear"
+            android:id="@+id/buttonMorphClear"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Text"
+            android:id="@+id/TextStructElemSize"
+            android:background="#ffffff"/>
+
+        <SeekBar
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/SeekSizeStructElem"
+            android:minWidth="500px"
+            android:max = "20"/>
+    </LinearLayout>
+    </HorizontalScrollView>
+
+    <Button
+        android:id="@+id/btn_record"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Record"/>
+
+    <Button
+        android:id="@+id/btn_SaveData"
+        android:layout_width="125dp"
+        android:layout_height="60dp"
+        android:layout_toEndOf="@+id/btn_record"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:text="Save Data"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:background="@android:color/transparent"
+        android:textColor="#FF00EE00"
+        android:id="@+id/textGesture"
+        android:layout_above="@+id/textFPS"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="New Text"
+        android:background="@android:color/transparent"
+        android:textColor="#FF00EE00"
+        android:id="@+id/textFPS"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
+
+</RelativeLayout>
