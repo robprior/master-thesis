@@ -1,6 +1,6 @@
 Code for master's thesis
 
-Thesis availabele at:
+Thesis available at:
 https://dspace.library.uvic.ca/handle/1828/8554
 
 Shadercam Code Intially From:
