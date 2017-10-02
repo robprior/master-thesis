@@ -1,6 +1,11 @@
 Code for master's thesis
 
-Initial Code From:
+Thesis availabele at:
+https://dspace.library.uvic.ca/handle/1828/8554
+
+Shadercam Code Intially From:
+(provided loading video from camera as an OpenGL texture and applying a vertex/fragement shader)
+Altered to allow compute shaders and pipeline of multiple shaders.
 
 shadercam
 =========
